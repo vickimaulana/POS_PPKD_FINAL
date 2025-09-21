@@ -1588,5 +1588,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #4154f1;
 }
-
+body {
+    background: url("../images/bg-ikan.gif") no-repeat center center fixed;
+    background-size: cover;
+}
 }

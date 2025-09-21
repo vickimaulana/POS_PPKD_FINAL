@@ -7,22 +7,52 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-7 d-flex flex-column align-items-center justify-content-center">
-                  <canvas id="koiBackground"></canvas>
 
-<style>
-    /* Canvas selalu ada di belakang */
-    #koiBackground {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1; /* biar di belakang card */
-    }
-</style>
+                    <!-- Background & Animasi Ikan -->
+                    <style>
+                        body {
+                            margin: 0;
+                            overflow: hidden;
+                            height: 100vh;
+                            background: linear-gradient(to bottom right, #5e2ea8, #c45d8a);
+                            cursor: pointer;
+                        }
+
+                        /* Ikan */
+                        .koi {
+                            position: absolute;
+                            width: 120px;
+                            pointer-events: none;
+                            transition: top 2s linear, left 2s linear;
+                            image-rendering: auto;
+                        }
+
+                        /* Pelet */
+                        .pelet {
+                            position: absolute;
+                            width: 15px;
+                            height: 15px;
+                            background: brown;
+                            border-radius: 50%;
+                            pointer-events: none;
+                            animation: jatuh 2s linear forwards;
+                        }
+
+                        @keyframes jatuh {
+                            from { transform: translateY(0); opacity: 1; }
+                            to { transform: translateY(50px); opacity: 0.5; }
+                        }
+                    </style>
+
+                    <!-- 5 ekor ikan (pakai GIF) -->
+                    <img src="{{ asset('public/assets/images/koi1.gif') }}" class="koi" style="top:20%; left:10%;">
+                    <img src="{{ asset('public/assets/images/koi2.gif') }}" class="koi" style="top:40%; left:20%;">
+                    <img src="{{ asset('public/assets/images/koi1.gif') }}" class="koi" style="top:60%; left:30%;">
+                    <img src="{{ asset('public/assets/images/koi2.gif') }}" class="koi" style="top:30%; left:50%;">
+                    <img src="{{ asset('public/assets/images/koi1.gif') }}" class="koi" style="top:50%; left:70%;">
 
                     <!-- Logo & Title -->
-                    <div class="d-flex justify-content-center align-items-center mb-4">
+                    <div class="d-flex justify-content-center align-items-center mb-4" style="z-index:10; position:relative;">
                         <a href="/" class="logo d-flex align-items-center w-auto text-decoration-none">
                             <img src="{{ asset('assets/image/logoppkdjp.jpeg') }}" alt="Logo" class="me-2 rounded-circle shadow-sm" width="70" height="70">
                             <span class="h5 fw-bold text-primary">PPKD JakPus | POS</span>
@@ -30,38 +60,30 @@
                     </div>
 
                     <!-- Card -->
-                    <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card shadow-lg border-0 rounded-4" style="z-index:10; position:relative;">
                         <div class="card-body p-4">
-
                             <div class="text-center mb-4">
                                 <h5 class="card-title fw-bold text-dark">Login to Your Account</h5>
                                 <p class="text-muted small">Enter your email & password to continue</p>
                             </div>
 
-                            <!-- Form -->
-                            <form class="row g-3" method="post" action="/action-login">
+                            <form class="row g-3" method="post" action="{{ route('login') }}">
                                 @csrf
                                 <!-- Email -->
                                 <div class="col-12">
-                                    <label for="yourEmail" class="form-label fw-semibold">Email
-                                        <span class="text-danger">*</span>
-                                    </label>
+                                    <label for="yourEmail" class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
-                                        <input type="email" name="email" value="{{ old('email') }}"
-                                            class="form-control" id="yourEmail" placeholder="example@mail.com" required>
+                                        <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="yourEmail" placeholder="example@mail.com" required>
                                     </div>
                                 </div>
 
                                 <!-- Password -->
                                 <div class="col-12">
-                                    <label for="yourPassword" class="form-label fw-semibold">Password
-                                        <span class="text-danger">*</span>
-                                    </label>
+                                    <label for="yourPassword" class="form-label fw-semibold">Password <span class="text-danger">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light"><i class="bi bi-lock"></i></span>
-                                        <input type="password" name="password"
-                                            class="form-control" id="yourPassword" placeholder="••••••••" required>
+                                        <input type="password" name="password" class="form-control" id="yourPassword" placeholder="••••••••" required>
                                     </div>
                                 </div>
 
@@ -72,13 +94,12 @@
                                     </button>
                                 </div>
                             </form>
-                            <!-- End Form -->
                         </div>
                     </div>
 
                     <!-- Footer -->
-                    <div class="text-center mt-4 small text-muted">
-                        <script>document.write(new Date().getFullYear())</script> 
+                    <div class="text-center mt-4 small text-muted" style="z-index:10; position:relative;">
+                        <script>document.write(new Date().getFullYear())</script>
                         <span class="fw-semibold">Vicki Maulana</span> &copy; All Rights Reserved
                     </div>
 
@@ -87,103 +108,64 @@
         </div>
     </section>
 </main>
-@section('script')
-<canvas id="koiBackground"></canvas>
-
-<script>
-(() => {
-    const canvas = document.getElementById("koiBackground");
-    const ctx = canvas.getContext("2d");
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    // load gambar ikan
-    const koiImg = new Image();
-    koiImg.src = "{{ asset('assets/image/koi.png') }}"; // pastikan ada file koi.png
-
-    class Fish {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = 60;
-            this.speed = 1.5;
-            this.target = null;
-        }
-
-        draw() {
-            ctx.drawImage(koiImg, this.x - this.size/2, this.y - this.size/2, this.size, this.size);
-        }
-
-        update() {
-            if (this.target) {
-                let dx = this.target.x - this.x;
-                let dy = this.target.y - this.y;
-                let dist = Math.sqrt(dx*dx + dy*dy);
-                if (dist > 3) {
-                    this.x += (dx / dist) * this.speed;
-                    this.y += (dy / dist) * this.speed;
-                } else {
-                    // ikan sampai ke pelet → hapus pelet
-                    foods.splice(foods.indexOf(this.target), 1);
-                    this.target = null;
-                }
-            }
-            this.draw();
-        }
-    }
-
-    class Food {
-        constructor(x, y) {
-            this.x = x;
-            this.y = y;
-            this.size = 8;
-        }
-        draw() {
-            ctx.beginPath();
-            ctx.fillStyle = "brown";
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.closePath();
-        }
-    }
-
-    let fishes = [];
-    let foods = [];
-
-    // buat 5 ikan
-    for (let i = 0; i < 5; i++) {
-        fishes.push(new Fish());
-    }
-
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        foods.forEach(food => food.draw());
-        fishes.forEach(fish => {
-            // kalau ikan belum punya target → cari pelet
-            if (!fish.target && foods.length > 0) {
-                fish.target = foods[Math.floor(Math.random() * foods.length)];
-            }
-            fish.update();
-        });
-
-        requestAnimationFrame(animate);
-    }
-    animate();
-
-    // klik canvas → kasih pelet
-    canvas.addEventListener("click", (e) => {
-        foods.push(new Food(e.clientX, e.clientY));
-    });
-
-    // resize canvas kalau window berubah
-    window.addEventListener("resize", () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
-})();
-</script>
-
 @endsection
 
+@section('script')
+<script>
+    const kois = document.querySelectorAll(".koi");
+
+    // Hitung jarak dua titik
+    function distance(x1, y1, x2, y2) {
+        return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+    }
+
+    // Klik = munculkan pelet + ikan terdekat ngejar
+    document.addEventListener("click", (e) => {
+        const x = e.clientX;
+        const y = e.clientY;
+
+        // buat pelet
+        const pelet = document.createElement("div");
+        pelet.className = "pelet";
+        pelet.style.left = x + "px";
+        pelet.style.top = y + "px";
+        document.body.appendChild(pelet);
+
+        // cari ikan terdekat
+        let nearest = null;
+        let minDist = Infinity;
+        kois.forEach((koi) => {
+            const koiX = koi.offsetLeft;
+            const koiY = koi.offsetTop;
+            const d = distance(koiX, koiY, x, y);
+            if (d < minDist) {
+                minDist = d;
+                nearest = koi;
+            }
+        });
+
+        // ikan terdekat ngejar pelet
+        if (nearest) {
+            nearest.style.left = (x - 60) + "px";
+            nearest.style.top = (y - 60) + "px";
+        }
+
+        // hapus pelet setelah 2 detik
+        setTimeout(() => {
+            pelet.remove();
+        }, 2000);
+    });
+
+    // animasi berenang bebas terus-menerus
+    kois.forEach((koi) => {
+        function swim() {
+            const randX = Math.random() * (window.innerWidth - 150);
+            const randY = Math.random() * (window.innerHeight - 150);
+            koi.style.left = randX + "px";
+            koi.style.top = randY + "px";
+            setTimeout(swim, 300); // pindah tiap 3 detik
+        }
+        swim();
+    });
+</script>
+@endsection

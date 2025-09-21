@@ -23,8 +23,16 @@ class RolesTableSeeder extends Seeder
 
         User::insert([
             [
+                'name' => 'Admin POS',
+                'email' => 'adminpos@gmail.co',
+                'password' => Hash::make('admin123'),
+                'role_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'name' => 'Pimpinan POS',
-                'email' => 'pimpinanpos@gmail.com',
+                'email' => 'pimpinanpos@gmail.co',
                 'password' => Hash::make('pimpin123'),
                 'role_id' => 2,
                 'created_at' => now(),
@@ -32,7 +40,7 @@ class RolesTableSeeder extends Seeder
             ],
             [
                 'name' => 'Kasir POS',
-                'email' => 'kasirpos@gmail.com',
+                'email' => 'kasirpos@gmail.co',
                 'password' => Hash::make('kasir123'),
                 'role_id' => 3,
                 'created_at' => now(),
