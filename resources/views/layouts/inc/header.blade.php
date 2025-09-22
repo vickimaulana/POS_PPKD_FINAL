@@ -3,7 +3,8 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="/" class="logo d-flex align-items-center">
-            <img src=" asset('assets/image/logo.png')" alt="">
+            <img src="{{ asset('assets/image/logo2.png') }}" class="me-2 rounded-circle shadow-sm" width="50"
+                height="50" alt="Logo"> 
             <span class="d-none d-lg-block">PPKD JakPus | POS</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>

@@ -359,21 +359,18 @@ h6 {
 }
 
 @media (min-width: 1200px) {
-    .logo img {
-  width: 90px; 
-  height: auto;
-  border-radius: 50%; /* bikin bulat */
-  padding: 8px;
-  background: #fff;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-  transition: all 0.4s ease;
+ .logo-img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain; /* supaya gambar tidak gepeng */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efek hover logo */
-.logo img:hover {
-  transform: scale(1.1) rotate(5deg);
+.logo-img:hover {
+  transform: scale(1.1); /* membesar tanpa miring */
   box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
+
 
 /* Text di samping logo */
 .logo-text {

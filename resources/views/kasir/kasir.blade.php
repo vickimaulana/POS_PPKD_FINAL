@@ -280,7 +280,7 @@
         
         <!-- Header -->
         <div class="text-center p-6 border-b border-gray-200 bg-gray-50">
-            <img src="{{ asset('assets/image/img.jpeg') }}" alt="Tailwind POS"
+            <img src="{{ asset('assets/image/image.png') }}" alt="Tailwind POS"
                 class="mb-3 w-12 h-12 mx-auto rounded-full shadow">
             <h2 class="text-xl font-bold tracking-wide text-gray-800">Point Of Sales</h2>
             <p class="text-xs text-gray-500">PPKD Pusat</p>
